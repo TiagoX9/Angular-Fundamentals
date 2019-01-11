@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
       <h2>{{ event?.name }}</h2>
       <div>Date: {{ event?.date }}</div>
       <div
+        [routerLink]="['/events', event.id]"
         class="well"
         [ngStyle]="getStartTimeStyle()"
         [ngSwitch]="event?.time"
