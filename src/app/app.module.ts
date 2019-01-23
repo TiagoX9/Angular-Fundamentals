@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   EventsListComponent,
@@ -7,8 +8,10 @@ import {
   EventService,
   EventDetailsComponent,
   CreateEventComponent,
+  CreateSessionComponent,
   EventRouteActivator,
-  EventsListResolver
+  EventsListResolver,
+  SessionListComponent
 } from './events/index';
 
 import { EventsAppComponent } from './events-app.component';
@@ -17,6 +20,8 @@ import { ToastrService } from './common/toastr.service';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { Error404Component } from './errors/404.component';
+import { AuthService } from './user/auth.service';
+import { CollapsibleWellComponent } from './common/collapsible-well.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +31,17 @@ import { Error404Component } from './errors/404.component';
     NavBarComponent,
     EventDetailsComponent,
     CreateEventComponent,
-    Error404Component
+    Error404Component,
+    CreateSessionComponent,
+    SessionListComponent,
+    CollapsibleWellComponent
   ],
-  imports: [BrowserModule, RouterModule.forRoot(appRoutes)],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes)],
   providers: [
     EventService,
     ToastrService,
     EventRouteActivator,
+    AuthService,
     {
       provide: 'canDeactivateCreateEvent',
       useValue: checkDirtyState
@@ -41,7 +50,7 @@ import { Error404Component } from './errors/404.component';
   ],
   bootstrap: [EventsAppComponent]
 })
-export class AppModule {}
+export class AppModule { }
 
 export function checkDirtyState(component: CreateEventComponent) {
   if (component.isDirty) {
